@@ -14,11 +14,48 @@
                     <view key="view" contentMode="scaleToFill" id="koZ-vg-mQX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="WYA-eg-zo6">
+                                <rect key="frame" x="87" y="306" width="240" height="284"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="undraw_empty" translatesAutoresizingMaskIntoConstraints="NO" id="5BR-9a-OEa">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="240"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="240" id="YEt-rM-IKO"/>
+                                            <constraint firstAttribute="width" constant="240" id="rCs-my-Nog"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sorry, your favorite movie doesn't exist yet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IPL-IG-mxY">
+                                        <rect key="frame" x="0.0" y="243" width="240" height="41"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="240" id="uq5-EF-B4j"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="83w-oL-SIN">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="b3N-fb-5tD" firstAttribute="trailing" secondItem="83w-oL-SIN" secondAttribute="trailing" id="9Ts-es-7rC"/>
+                            <constraint firstItem="83w-oL-SIN" firstAttribute="leading" secondItem="b3N-fb-5tD" secondAttribute="leading" id="Vrt-tG-Su1"/>
+                            <constraint firstItem="b3N-fb-5tD" firstAttribute="bottom" secondItem="83w-oL-SIN" secondAttribute="bottom" id="WyM-IS-0vO"/>
+                            <constraint firstItem="WYA-eg-zo6" firstAttribute="centerY" secondItem="koZ-vg-mQX" secondAttribute="centerY" id="jC6-aF-L4f"/>
+                            <constraint firstItem="83w-oL-SIN" firstAttribute="top" secondItem="b3N-fb-5tD" secondAttribute="top" id="mWF-uE-hHb"/>
+                            <constraint firstItem="WYA-eg-zo6" firstAttribute="centerX" secondItem="koZ-vg-mQX" secondAttribute="centerX" id="xgT-IX-kqb"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="b3N-fb-5tD"/>
                     </view>
                     <navigationItem key="navigationItem" title="Favorites" id="TAK-Kg-8re"/>
                     <connections>
+                        <outlet property="labelEmpty" destination="WYA-eg-zo6" id="7G1-9D-7rI"/>
+                        <outlet property="tableViewMovie" destination="83w-oL-SIN" id="sal-yf-Uy6"/>
                         <segue destination="85g-vt-G4j" kind="show" id="KqF-ID-Q4z"/>
                     </connections>
                 </viewController>
@@ -267,9 +304,10 @@
     </scenes>
     <resources>
         <image name="favorites_filled" width="25" height="25"/>
+        <image name="undraw_empty" width="312.5" height="237.5"/>
         <image name="windows_phone_store_filled" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="JJ5-ye-h6x"/>
+        <segue reference="KqF-ID-Q4z"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -16,6 +16,7 @@ class MoviesViewController: UIViewController {
 		super.viewDidLoad()
 		tableView.delegate = self
 		tableView.dataSource = self
+		tableView.register(UINib(nibName: "MoviesTableViewCell", bundle: nil), forCellReuseIdentifier: "Movies")
 		self.startIndicatorView(view: self.view)
 		Service.shared.getMovies(category: "upcoming") { (results) in
 			if let result = results {
@@ -100,7 +101,10 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
 		let movie = movieVM.movieAtIndex(indexPath.row)
 		cell.titleLabel.text = movie.title
 		cell.releaseDateLabel.text = movie.releaseDate
-		
+		if let imageMovie = movie.image {
+			cell.movieImage.image = imageMovie
+		}
+		cell.ratingLabel.text = movie.rating
 		return cell
 	}
 	

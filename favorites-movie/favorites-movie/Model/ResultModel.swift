@@ -12,7 +12,7 @@ import Foundation
 struct Result: Decodable {
 	let title: String
   let overview: String
-	let poster_path: String
-	let vote_average: Double
-	let release_date: String
+	let posterPath: String
+	let voteAverage: Double
+	let releaseDate: String
 }

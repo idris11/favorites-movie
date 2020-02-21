@@ -21,7 +21,9 @@ class Service {
 				print(error.localizedDescription)
 				completion(nil)
 			} else if let data = data {
-				let articleList = try? JSONDecoder().decode(MovieModel.self, from: data).results
+				let decoder = JSONDecoder()
+				decoder.keyDecodingStrategy = .convertFromSnakeCase
+				let articleList = try? decoder.decode(MovieModel.self, from: data).results
 				completion(articleList)
 			}
 		}.resume()
