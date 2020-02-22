@@ -4,6 +4,8 @@ This application can display a list of films and add to favorites
 - MVVM as pattern
 - Core Data as local storage
 - Unit test
+# Requirement
+- minimum iOS 10.0
 # API 
 > themoviedb.org
 # Demo
