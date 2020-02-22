@@ -8,7 +8,13 @@
 
 import Foundation
 import UIKit
-struct MovieViewModel {
+struct MovieViewModel: Equatable {
+	
+	// MARK: - static func equatbale for unit testing
+	static func == (lhs: MovieViewModel, rhs: MovieViewModel) -> Bool {
+		return true
+	}
+	
 	let movie: Result
 	
 	var title: String {

@@ -10,6 +10,7 @@ import UIKit
 
 class MoviesViewController: UIViewController {
 	var movieVM: MoviesViewModel!
+	var selectedMovie: MovieViewModel?
 	@IBOutlet weak var tableView: UITableView!
 	
 	override func viewDidLoad() {
@@ -96,16 +97,27 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: "Movies", for: indexPath) as! MoviesTableViewCell
 		
 		let movie = movieVM.movieAtIndex(indexPath.row)
 		cell.titleLabel.text = movie.title
 		cell.releaseDateLabel.text = movie.releaseDate
 		if let imageMovie = movie.image {
-			cell.movieImage.image = imageMovie
+			cell.imageMovie.image = imageMovie
 		}
 		cell.ratingLabel.text = movie.rating
 		return cell
 	}
 	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		selectedMovie = movieVM.movieAtIndex(indexPath.row)
+		performSegue(withIdentifier: "GoToDetail", sender: nil)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "GoToDetail" {
+			let destinationVC = segue.destination as! DetailMovieViewController
+			destinationVC.movie = selectedMovie
+		}
+	}
 }
