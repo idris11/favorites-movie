@@ -48,4 +48,8 @@ struct MovieViewModel: Equatable {
 		guard let imgData = try? Data(contentsOf: urlImage) else {fatalError()}
 		return UIImage(data: imgData)
 	}
+	
+	var id: Int {
+		return movie.id
+	}
 }

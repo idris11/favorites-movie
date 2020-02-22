@@ -23,8 +23,8 @@
                             <constraint firstAttribute="height" constant="160" id="g2C-Pn-aJa"/>
                         </constraints>
                     </imageView>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="CWW-nT-iR6">
-                        <rect key="frame" x="154" y="48" width="230" height="104"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="CWW-nT-iR6">
+                        <rect key="frame" x="154" y="30.5" width="230" height="139"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tOU-eY-Szn">
                                 <rect key="frame" x="0.0" y="0.0" width="230" height="30"/>
@@ -53,6 +53,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VaE-zk-quf">
+                                <rect key="frame" x="0.0" y="114" width="79" height="25"/>
+                                <state key="normal" title="Button" image="like"/>
+                            </button>
                         </subviews>
                     </stackView>
                 </subviews>
@@ -74,4 +78,7 @@
             <point key="canvasLocation" x="229.71014492753625" y="163.39285714285714"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="like" width="25" height="25"/>
+    </resources>
 </document>

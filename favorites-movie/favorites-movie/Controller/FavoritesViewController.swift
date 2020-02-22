@@ -7,10 +7,10 @@
 //
 
 import UIKit
-
+import CoreData
 class FavoritesViewController: UIViewController {
 	var movieVM: MoviesViewModel!
-	
+	let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 	@IBOutlet weak var labelEmpty: UIStackView!
 	@IBOutlet weak var tableViewMovie: UITableView!
 	override func viewDidLoad() {
@@ -18,10 +18,51 @@ class FavoritesViewController: UIViewController {
 		tableViewMovie.register(UINib(nibName: "MoviesTableViewCell", bundle: nil), forCellReuseIdentifier: "Movies")
 		tableViewMovie.delegate = self
 		tableViewMovie.dataSource = self
-		labelEmpty.isHidden = false
-		tableViewMovie.isHidden = true
+		labelEmpty.isHidden = true
+		tableViewMovie.isHidden = false
+		getFavoritesmovie()
+//		saveMovie()
 	}
 	
+	func getFavoritesmovie() {
+		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Favorites")
+		do {
+			let result = try context.fetch(fetchRequest) as! [NSManagedObject]
+			var temp = [Result]()
+			for item in result {
+				let title = item.value(forKey: "title") as! String
+				let overview = item.value(forKey: "overview") as! String
+				let releaseDate = item.value(forKey: "releaseDate") as! String
+				let rating = item.value(forKey: "rating") as! Double
+				let posterPath = item.value(forKey: "posterPath") as! String
+				let id = item.value(forKey: "movieId") as! Int
+				temp.append(Result(title: title, overview: overview, posterPath: posterPath, voteAverage: rating, releaseDate: releaseDate, id: id))
+			}
+			
+			movieVM = MoviesViewModel(movies: temp)
+			DispatchQueue.main.async {
+				self.tableViewMovie.reloadData()
+//				self.stopIndikatorView(view: self.view)
+			}
+		} catch let err {
+			print(err)
+		}
+	}
+	
+	func saveMovie() {
+		let movie = Favorites(context: context)
+		movie.movieId = 419704
+		movie.overview = "The near future, a time when both hope and hardships drive humanity to look to the stars and beyond. While a mysterious phenomenon menaces to destroy life on planet Earth, astronaut Roy McBride undertakes a mission across the immensity of space and its many perils to uncover the truth about a lost expedition that decades before boldly faced emptiness and silence in search of the unknown."
+		movie.rating = 7.0
+		movie.releaseDate = "2019-09-17"
+		movie.title = "Ad Astra"
+		movie.posterPath = "/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg"
+		do {
+			try context.save()
+		} catch let err {
+			print(err)
+		}
+	}
 }
 
 extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {

@@ -15,4 +15,5 @@ struct Result: Decodable {
 	let posterPath: String
 	let voteAverage: Double
 	let releaseDate: String
+	let id: Int
 }
