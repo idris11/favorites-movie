@@ -7,4 +7,4 @@ This application can display a list of films and add to favorites
 # API 
 > themoviedb.org
 # Demo
-![](https://gfycat.com/cheerywavyhermitcrab)
+![](https://github.com/idris11/favorites-movie/blob/master/demo_app.gif)
