@@ -56,7 +56,7 @@
                     <connections>
                         <outlet property="labelEmpty" destination="WYA-eg-zo6" id="7G1-9D-7rI"/>
                         <outlet property="tableViewMovie" destination="83w-oL-SIN" id="sal-yf-Uy6"/>
-                        <segue destination="85g-vt-G4j" kind="show" id="KqF-ID-Q4z"/>
+                        <segue destination="85g-vt-G4j" kind="show" identifier="GoToDetail" id="KqF-ID-Q4z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ejY-dU-ObK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

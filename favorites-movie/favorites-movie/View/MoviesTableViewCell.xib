@@ -56,6 +56,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VaE-zk-quf">
                                 <rect key="frame" x="0.0" y="114" width="79" height="25"/>
                                 <state key="normal" title="Button" image="like"/>
+                                <connections>
+                                    <action selector="favoriteButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hjo-AI-den"/>
+                                </connections>
                             </button>
                         </subviews>
                     </stackView>

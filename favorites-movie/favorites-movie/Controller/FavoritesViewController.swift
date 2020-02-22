@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 class FavoritesViewController: UIViewController {
 	var movieVM: MoviesViewModel!
+	var selectedMovie: MovieViewModel?
 	let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 	@IBOutlet weak var labelEmpty: UIStackView!
 	@IBOutlet weak var tableViewMovie: UITableView!
@@ -20,11 +21,15 @@ class FavoritesViewController: UIViewController {
 		tableViewMovie.dataSource = self
 		labelEmpty.isHidden = true
 		tableViewMovie.isHidden = false
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 		getFavoritesmovie()
-//		saveMovie()
 	}
 	
 	func getFavoritesmovie() {
+		self.startIndicatorView(view: self.view)
 		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Favorites")
 		do {
 			let result = try context.fetch(fetchRequest) as! [NSManagedObject]
@@ -38,29 +43,51 @@ class FavoritesViewController: UIViewController {
 				let id = item.value(forKey: "movieId") as! Int
 				temp.append(Result(title: title, overview: overview, posterPath: posterPath, voteAverage: rating, releaseDate: releaseDate, id: id))
 			}
-			
 			movieVM = MoviesViewModel(movies: temp)
+			if temp.count == 0 {
+				tableViewMovie.isHidden = true
+				labelEmpty.isHidden = false
+			} else {
+				tableViewMovie.isHidden = false
+				labelEmpty.isHidden = true
+			}
 			DispatchQueue.main.async {
 				self.tableViewMovie.reloadData()
-//				self.stopIndikatorView(view: self.view)
+				self.stopIndikatorView(view: self.view)
 			}
 		} catch let err {
 			print(err)
 		}
 	}
 	
-	func saveMovie() {
-		let movie = Favorites(context: context)
-		movie.movieId = 419704
-		movie.overview = "The near future, a time when both hope and hardships drive humanity to look to the stars and beyond. While a mysterious phenomenon menaces to destroy life on planet Earth, astronaut Roy McBride undertakes a mission across the immensity of space and its many perils to uncover the truth about a lost expedition that decades before boldly faced emptiness and silence in search of the unknown."
-		movie.rating = 7.0
-		movie.releaseDate = "2019-09-17"
-		movie.title = "Ad Astra"
-		movie.posterPath = "/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg"
+	func deleteFavorite(id: Int) {
+		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Favorites")
+		fetchRequest.predicate = NSPredicate(format: "movieId = %@", "\(id)")
 		do {
-			try context.save()
+			let result = try context.fetch(fetchRequest)
+			
+			let movieToDelete = result[0] as! NSManagedObject
+			context.delete(movieToDelete)
+			do {
+				try context.save()
+				getFavoritesmovie()
+			} catch let err {
+				print(err)
+			}
 		} catch let err {
 			print(err)
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		selectedMovie = movieVM.movieAtIndex(indexPath.row)
+		performSegue(withIdentifier: "GoToDetail", sender: nil)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "GoToDetail" {
+			let destinationVC = segue.destination as! DetailMovieViewController
+			destinationVC.movie = selectedMovie
 		}
 	}
 }
@@ -83,7 +110,14 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
 			cell.imageMovie.image = imageMovie
 		}
 		cell.ratingLabel.text = movie.rating
+		cell.movie = movie.movie
+		cell.buttonFavoriteDelegate = self
 		return cell
 	}
-	
+}
+
+extension FavoritesViewController: FavoriteProtocol {
+	func buttonTapped(movie: Result) {
+		deleteFavorite(id: movie.id)
+	}
 }

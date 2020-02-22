@@ -9,6 +9,7 @@
 import UIKit
 
 class MoviesViewController: UIViewController {
+	let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 	var movieVM: MoviesViewModel!
 	var selectedMovie: MovieViewModel?
 	@IBOutlet weak var tableView: UITableView!
@@ -18,6 +19,9 @@ class MoviesViewController: UIViewController {
 		tableView.delegate = self
 		tableView.dataSource = self
 		tableView.register(UINib(nibName: "MoviesTableViewCell", bundle: nil), forCellReuseIdentifier: "Movies")
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
 		self.startIndicatorView(view: self.view)
 		Service.shared.getMovies(category: "upcoming") { (results) in
 			if let result = results {
@@ -106,6 +110,8 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
 			cell.imageMovie.image = imageMovie
 		}
 		cell.ratingLabel.text = movie.rating
+		cell.buttonFavoriteDelegate = self
+		cell.movie = movie.movie
 		return cell
 	}
 	
@@ -118,6 +124,25 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
 		if segue.identifier == "GoToDetail" {
 			let destinationVC = segue.destination as! DetailMovieViewController
 			destinationVC.movie = selectedMovie
+		}
+	}
+}
+
+extension MoviesViewController: FavoriteProtocol {
+	func buttonTapped(movie: Result) {
+		self.startIndicatorView(view: self.view)
+		let movieCD = Favorites(context: context)
+		movieCD.movieId = Int64(movie.id)
+		movieCD.overview = movie.overview
+		movieCD.rating = movie.voteAverage
+		movieCD.releaseDate = movie.releaseDate
+		movieCD.title = movie.title
+		movieCD.posterPath = movie.posterPath
+		do {
+			try context.save()
+			self.stopIndikatorView(view: self.view)
+		} catch let err {
+			print(err)
 		}
 	}
 }
