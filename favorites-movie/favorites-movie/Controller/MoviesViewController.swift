@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 class MoviesViewController: UIViewController {
 	let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 	var movieVM: MoviesViewModel!
@@ -90,8 +91,16 @@ class MoviesViewController: UIViewController {
 		}
 	}
 	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "GoToDetail" {
+			let destinationVC = segue.destination as! DetailMovieViewController
+			destinationVC.movie = selectedMovie
+		}
+	}
+	
 }
 
+@available(iOS 13.0, *)
 extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
 	func numberOfSections(in tableView: UITableView) -> Int {
     return self.movieVM == nil ? 0 : self.movieVM.numberOfSection
@@ -119,15 +128,9 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
 		selectedMovie = movieVM.movieAtIndex(indexPath.row)
 		performSegue(withIdentifier: "GoToDetail", sender: nil)
 	}
-	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == "GoToDetail" {
-			let destinationVC = segue.destination as! DetailMovieViewController
-			destinationVC.movie = selectedMovie
-		}
-	}
 }
 
+@available(iOS 13.0, *)
 extension MoviesViewController: FavoriteProtocol {
 	func buttonTapped(movie: Result) {
 		self.startIndicatorView(view: self.view)

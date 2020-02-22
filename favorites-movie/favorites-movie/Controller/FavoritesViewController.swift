@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+@available(iOS 13.0, *)
 class FavoritesViewController: UIViewController {
 	var movieVM: MoviesViewModel!
 	var selectedMovie: MovieViewModel?
@@ -92,6 +93,7 @@ class FavoritesViewController: UIViewController {
 	}
 }
 
+@available(iOS 13.0, *)
 extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
 	func numberOfSections(in tableView: UITableView) -> Int {
     return self.movieVM == nil ? 0 : self.movieVM.numberOfSection
@@ -116,6 +118,7 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 }
 
+@available(iOS 13.0, *)
 extension FavoritesViewController: FavoriteProtocol {
 	func buttonTapped(movie: Result) {
 		deleteFavorite(id: movie.id)

@@ -23,7 +23,11 @@ extension UIViewController {
     
     let ai : UIActivityIndicatorView = UIActivityIndicatorView()
     ai.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-		ai.style = UIActivityIndicatorView.Style.large
+		if #available(iOS 13.0, *) {
+			ai.style = UIActivityIndicatorView.Style.large
+		} else {
+			// Fallback on earlier versions
+		}
     ai.center = CGPoint(x: loadingView.frame.size.width/2, y: loadingView.frame.size.height/2)
     
     
